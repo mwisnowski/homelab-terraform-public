@@ -1,0 +1,49 @@
+#cloud-config
+# Generic cloud-init configuration for homelab VMs
+# This file should be copied to your Proxmox server at:
+# /var/lib/vz/snippets/homelab-userdata.yml
+
+timezone: America/Los_Angeles
+
+# Update package database and install packages
+package_update: true
+package_upgrade: false
+
+# Install standard packages for all homelab VMs
+packages:
+  - curl
+  - wget
+  - vim
+  - htop
+  - git
+  - unzip
+  - tree
+  - net-tools
+  - software-properties-common
+  - apt-transport-https
+  - ca-certificates
+  - gnupg
+  - lsb-release
+
+# Run commands after the instance starts
+runcmd:
+  - timedatectl set-timezone America/Los_Angeles
+  - systemctl restart systemd-timesyncd
+  - echo "$(date): Cloud-init setup complete on $(hostname)" >> /var/log/cloud-init-custom.log
+  - echo "Timezone set to America/Los_Angeles" >> /var/log/cloud-init-custom.log
+
+# Configure NTP for accurate time synchronization
+ntp:
+  enabled: true
+  servers:
+    - 0.pool.ntp.org
+    - 1.pool.ntp.org
+    - 2.pool.ntp.org
+    - 3.pool.ntp.org
+
+# SSH configuration improvements
+ssh_pwauth: true
+disable_root: false
+
+# Final message
+final_message: "Homelab VM cloud-init setup complete. Timezone: America/Los_Angeles, Hostname: $(hostname)"

@@ -1,0 +1,19 @@
+# Terraform
+*.tfstate
+*.tfstate.*
+*.tfvars
+.terraform/
+.terraform.lock.hcl
+
+# Sensitive files
+secrets.tfvars
+*.pem
+*.key
+
+# Deprecated/old configs
+/deprecated/
+
+# IDE/Editor files
+.vscode/
+*.swp
+*~
